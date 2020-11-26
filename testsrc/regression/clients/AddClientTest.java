@@ -7,11 +7,12 @@ import pages.clients.AddClient;
 import util.DoLogin;
 import util.OpenUrl;
 
+import java.text.ParseException;
+
 public class AddClientTest extends DoLogin
 {
     @Test
-    public void addClientTest()
-    {
+    public void addClientTest() throws ParseException {
         Menu menu = new Menu(driver);
         menu.clickAddClient();
 
@@ -31,6 +32,6 @@ public class AddClientTest extends DoLogin
 
         addClient.setGender("Other");*/
 
-        addClient.setBirthDate("12/21/2020");
+        addClient.setBirthDate("02/06/2020"); // MM/dd/yyyy
     }
 }
