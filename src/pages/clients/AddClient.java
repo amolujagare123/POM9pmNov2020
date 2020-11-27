@@ -14,106 +14,99 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddClient {
+    @FindBy(xpath="//input[@id='client_name']")
+    WebElement clientName;
 
-    @FindBy(xpath = "//input[@id='client_name']")
-    WebElement name;
-
-    @FindBy (xpath = "//input[@id='client_surname']")
+    @FindBy (xpath="//input[@id='client_surname']")
     WebElement surname;
 
-    @FindBy (xpath = "//input[@id='client_address_1']")
-    WebElement add1;
+    @FindBy (xpath="//input[@id='client_address_1']")
+    WebElement address1;
 
-    @FindBy (xpath = "//input[@id='client_address_2']")
-    WebElement add2;
+    @FindBy (xpath="//input[@id='client_address_2']")
+    WebElement address2;
 
-    @FindBy (xpath = "//input[@id='client_city']")
-    WebElement city;
 
-    @FindBy (xpath = "//input[@id='client_state']")
-    WebElement state;
 
-    @FindBy (xpath = "//input[@id='client_zip']")
-    WebElement zip;
+    @FindBy (id="select2-client_language-container")
+    WebElement containerlanguage;
 
-    @FindBy (xpath = "//span[@id='select2-client_language-container']")
-    WebElement containerLanguage;
+    @FindBy (xpath="//input[@type='search']")
+    WebElement txtSearch;
 
-    @FindBy (xpath = "//input[@type='search']")
-    WebElement searchBox;
-
-    @FindBy (xpath = "//input[@id='client_birthdate']")
-    WebElement birthDate;
-
-    public void setBirthDateJS(String clientBirthdate)
+    public void setlanguage(String lang)
     {
-       // birthDate.sendKeys(clientBirthdate);
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        js.executeScript("arguments[0].setAttribute('value','"+clientBirthdate+"')",birthDate);
-
-    }
-
-
-    public void setBirthDate(String setDateStr) throws ParseException {
-       birthDate.click();
-       Date setDate = new SimpleDateFormat("MM/dd/yyyy").parse(setDateStr); // 12/21/2020
-
-       String currDateStr = driver.findElement(By.className("datepicker-switch")).getText();
-       // November 2020 --> MMMM yyyy
-        Date currDate = new SimpleDateFormat("MMMM yyyy").parse(currDateStr);
-
-         int monthDiff = Months.monthsBetween(new DateTime(currDate).withDayOfMonth(1),
-                 new DateTime(setDate).withDayOfMonth(1)).getMonths();
-
-        System.out.println(monthDiff);
-        boolean isFuture = true;
-
-        if(monthDiff<0) {
-            isFuture = false;
-
-            monthDiff = monthDiff * (-1);
-        }
-
-        for(int i=0 ;i<monthDiff;i++)
-        {
-            if(isFuture)
-                driver.findElement(By.className("next")).click(); // cilck next
-            else
-                driver.findElement(By.className("prev")).click(); // cilck prev
-        }
-
-
-        String setDateDayStr = new SimpleDateFormat("dd").format(setDate); // 21
-
-int setDateDay = Integer.parseInt(setDateDayStr);
-
-        driver.findElement(By.xpath("//td[text()='"+setDateDay+"' and @class='day']")).click();
-
+        containerlanguage.click();
+        txtSearch.sendKeys(lang);
+        driver.findElement(By.xpath("//li[contains(text(),'"+lang+"')]")).click();
     }
 
 
 
-    public void setLanguage(String language)
+
+    @FindBy (xpath="//input[@id='client_city']") WebElement city;
+    @FindBy (xpath="//input[@id='client_state']") WebElement state;
+    @FindBy (xpath="//input[@id='client_zip']") WebElement zip;
+    @FindBy (xpath="//input[@id='client_phone']") WebElement phone;
+    @FindBy (xpath="//input[@id='client_mobile']") WebElement mobile;
+
+    @FindBy (xpath="//input[@id='client_fax']") WebElement fax;
+    @FindBy (xpath="//input[@id='client_web']") WebElement web;
+
+    @FindBy (xpath="//input[@id='client_email']") WebElement email;
+    @FindBy (xpath="//input[@id='client_vat_id']") WebElement vat;
+    @FindBy (xpath="//input[@id='client_tax_code']") WebElement tax;
+    @FindBy (xpath="//button[@id='btn-submit']") WebElement btnSave;
+
+    public void setCity(String cityTxt)
     {
-        containerLanguage.click();
-        searchBox.sendKeys(language);
-        driver.findElement(By.xpath("//li[contains(text(),'"+language+"')]")).click();
+        city.sendKeys(cityTxt);
+    }
+    public void setEmail(String emailtxt) {email.sendKeys(emailtxt);}
+    public void setWeb(String webtxt) {web.sendKeys(webtxt);}
+    public void setMobile(String mob) {mobile.sendKeys(mob);}
+    public void setState(String stateTxt)
+    {
+        state.sendKeys(stateTxt);
+    }
+    public void setZip(String zipTxt)
+    {
+        zip.sendKeys(zipTxt);
+    }
+    public void setPhone(String phoneTxt)
+    {
+        phone.sendKeys(phoneTxt);
+    }
+    public void setFax(String faxTxt)
+    {
+        fax.sendKeys(faxTxt);
+    }
+    public void setTax(String taxTxt)
+    {
+        tax.sendKeys(taxTxt);
+    }
+    public void setVat(String vatTxt)
+    {
+        vat.sendKeys(vatTxt);
+    }
+
+    public void clickSave()
+    {
+        btnSave.click();
     }
 
 
-    @FindBy (xpath = "//span[@id='select2-client_country-container']")
+    @FindBy (id="select2-client_country-container")
     WebElement containerCountry;
 
     public void setCountry(String country)
     {
         containerCountry.click();
-        searchBox.sendKeys(country);
+        txtSearch.sendKeys(country);
         driver.findElement(By.xpath("//li[text()='"+country+"']")).click();
     }
 
-    @FindBy (xpath = "//span[@id='select2-client_gender-container']")
+    @FindBy (id="select2-client_gender-container")
     WebElement containerGender;
 
     public void setGender(String gender)
@@ -122,50 +115,99 @@ int setDateDay = Integer.parseInt(setDateDayStr);
         driver.findElement(By.xpath("//li[contains(text(),'"+gender+"')]")).click();
     }
 
+
+    @FindBy(xpath="//input[@id='client_birthdate']")
+    WebElement txtDate;
+
+    public void setBirthDateJS(String myDate)
+    {
+        //  txtDate.sendKeys(myDate);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute('value','"+myDate+"')",txtDate);
+    }
+
+    public void setBirthDate(String setDateStr) throws ParseException {
+        txtDate.click();
+        System.out.println(setDateStr);
+
+        // lets extract the current date (month year)
+
+        String currDateStr =  driver.findElement(By.className("datepicker-switch")).getText();
+
+        System.out.println(currDateStr);
+
+        // lets convert currentDateStr & setDateStr into date
+
+        Date setDate = new SimpleDateFormat("dd/MM/yyyy").parse(setDateStr);
+
+        Date currDate = new SimpleDateFormat("MMMM yyyy").parse(currDateStr);
+
+        // take month difference between current date & set date
+        // download Joda date jar
+
+        int monthDiff = Months.monthsBetween(new DateTime(currDate).withDayOfMonth(1),
+
+                new DateTime(setDate).withDayOfMonth(1)).getMonths();
+
+        System.out.println(monthDiff);
+
+
+        boolean isFuture=true;
+
+        if(monthDiff<0) // if the month diff is negative then (-5)
+        {
+            isFuture=false; // set isFuture to false
+            monthDiff = monthDiff * (-1); // make the value of month diff positive -- 5
+        }
+
+
+        for(int i=0 ; i<monthDiff ;i++)
+        {
+            if(isFuture)
+                driver.findElement(By.xpath("//th[@class='next']")).click();
+            else
+                driver.findElement(By.xpath("//th[@class='prev']")).click();
+        }
+
+
+        String currDayStr = new SimpleDateFormat("dd").format(setDate);
+
+        int currDay = Integer.parseInt(currDayStr);
+
+        driver.findElement(By.xpath("//td[@class='day' and text()='"+currDay+"']")).click();
+
+
+    }
+
+
     WebDriver driver;
 
     public AddClient(WebDriver driver)
     {
-        this.driver = driver;
         PageFactory.initElements(driver,this);
+        this.driver = driver;
     }
 
 
 
-
-    public void setName(String clientname)
+    public void setClientName(String name)
     {
-        name.sendKeys(clientname);
+        clientName.sendKeys(name);
     }
 
-    public void setSurname(String clientSurname)
+    public void setSurname(String surnametext)
     {
-        surname.sendKeys(clientSurname);
+        surname.sendKeys(surnametext);
     }
 
-    public void setAdd1(String address)
+    public void setAddress1(String add1)
     {
-        add1.sendKeys(address);
+        address1.sendKeys(add1);
     }
 
-    public void setAdd2(String address)
+    public void setAddress2(String add2)
     {
-        add2.sendKeys(address);
+        address2.sendKeys(add2);
     }
-
-    public void setCity(String cilentCity)
-    {
-        city.sendKeys(cilentCity);
-    }
-
-    public void setState(String clientState)
-    {
-        state.sendKeys(clientState);
-    }
-
-    public void setZip(String zipcode)
-    {
-        zip.sendKeys(zipcode);
-    }
-
 }
